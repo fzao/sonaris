@@ -8,3 +8,10 @@ Description:
 * Python module dependencies:
   * PIL
   * cv2
+
+<p align="center">
+  <img src="./eel.png" width="300"/>
+</p>
+<p align="center">
+   <b>eel fish detection</b> 
+</p>
