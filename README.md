@@ -10,8 +10,8 @@ Description:
   * cv2
 
 <p align="center">
-  <img src="./eel.png" width="300"/>
+  <img src="./eel.gif" width="300"/>
 </p>
 <p align="center">
-   <b>eel fish detection</b> 
+   <b>eel fish</b> 
 </p>
