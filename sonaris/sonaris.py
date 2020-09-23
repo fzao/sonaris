@@ -552,6 +552,10 @@ class Sonaris(object):
         elif nbeams == 381:
             factor = 4.05
             a = [.0030, -0.0055, 2.6829, 48.04]
+        elif nbeams == 509:
+            factor = 5.45
+            a = [.0030, -0.0055, 2.6829, 48.04]
+
         return np.round(factor * (a[0] * theta**3 +
                         a[1] * theta**2 + a[2] * theta + a[3]) + 1)
 
