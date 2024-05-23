@@ -565,12 +565,12 @@ class Sonaris(object):
         vid = None
         size = None
         fourcc = VideoWriter_fourcc(*format)
-        size = self.nx, self.ny
+        size = int(self.nx), int(self.ny)
         nbframe = self.file_header['numframes']
         frameRate = self.frame_header['framerate']
-        nout = self.nout
-        n = self.n
-        m = self.m
+        nout = int(self.nout)
+        n = int(self.n)
+        m = int(self.m)
         self.vid = VideoWriter(self.avi_file, fourcc, float(frameRate),
                                size, is_color)
         for i in range(0, nbframe[0]):
@@ -590,7 +590,7 @@ class Sonaris(object):
             # angular transform and save
             outframe = outframe.ravel(order='F')
             outframe = outframe[self.svector-1]
-            outframe = outframe.reshape(self.ny, self.nx, order='F')
+            outframe = outframe.reshape(int(self.ny), int(self.nx), order='F')
             outframe = np.round(outframe)
             outframe = outframe.astype(dtype=np.uint8)
             frame = Image.fromarray(outframe)
@@ -606,10 +606,10 @@ class Sonaris(object):
         minRange = self.frame_header['windowstart']
         maxRange = self.frame_header['windowstart'] + \
             self.frame_header['windowlength']
-        self.m = np.int(self.file_header['sampleperchannel'])
-        self.n = np.int(self.file_header['numbeams'])
+        self.m = np.int32(self.file_header['sampleperchannel'])
+        self.n = np.int32(self.file_header['numbeams'])
         nrows = self.m
-        self.nx = np.int(np.round(0.1773 * self.m + 309))
+        self.nx = np.int32(np.round(0.1773 * self.m + 309))
         self.nout = 4 * self.n - 3
         half_angle = 14.  # for ARIS v5 only
         degtorad = np.pi / 180.  # conversion of degrees to radians
@@ -625,12 +625,12 @@ class Sonaris(object):
         # Ratio of pixel number to position in meters
         gamma = self.nx / (2 * maxRange * np.sin(half_angle * degtorad))
         # number of pixels in image in vertical direction
-        self.ny = np.int(np.fix(gamma * (maxRange - d3) + 0.5))
+        self.ny = np.int32(np.fix(gamma * (maxRange - d3) + 0.5))
         # make vector and fill in later
-        self.svector = np.zeros((np.int(self.nx*self.ny),), dtype=int)
+        self.svector = np.zeros((np.int32(self.nx*self.ny)), dtype=int)
         ix = np.arange(1, self.nx + 1)  # pixels in x dimension
         x = ((ix - 1) - self.nx / 2) / gamma  # convert from pixels to meters
-        for iy in range(1, self.ny+1):
+        for iy in range(1, int(self.ny)+1):
             y = maxRange - (iy-1)/gamma  # convert from pixels to meters
             r = np.sqrt(y*y + x*x)  # convert to polar cooridinates
             theta = radtodeg * np.arctan2(x, y)  # theta is in degrees
